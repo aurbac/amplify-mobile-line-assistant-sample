@@ -1,13 +1,10 @@
 import React from "react";
 import { Authenticator, View, Text, Heading, useTheme, ThemeProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
 import LayoutApp from "./components/LayoutApp";
-
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
-
 Amplify.configure(config);
 
 function App({ signOut, user }) {

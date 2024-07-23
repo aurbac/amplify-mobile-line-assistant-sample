@@ -227,7 +227,7 @@ const Chat = ({ mobileLine }) => {
                         ) : (
                             <li key={"meg"+index}>
                             <Grid container justifyContent="flex-end" >  
-                                <Box sx={{ fontSize: 15, color: "#fff", textAlign: "right", borderRadius: 4, background: "#568FAA", fontWeight: 'bold', pt:1, pb:1, pl:2, pr: 2, mb: 1, mt: 2, mr:1 }}>
+                                <Box sx={{ fontSize: 15, textAlign: "right", borderRadius: 4, background: "#B2DFDB", fontWeight: 500, pt:1, pb:1, pl:2, pr: 2, mb: 1, mt: 2, mr:1 }}>
                                     { answer.query }
                                 </Box>
                             </Grid>
