@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Getting Started with Amplify Mobile Line Assistant
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This tutorial guides you through the process of setting up a React front-end application using AWS Amplify that integrates with Amazon Bedrock, a machine learning service for building conversational AI experiences. The application leverages Amazon Cognito for user authentication and authorization. 
 
-## Available Scripts
+By the end of this tutorial, you'll have a fully functional web application that allows users to interact with a conversational AI agent for mobile line assistance.
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+- [Install and configure the Amplify CLI](https://docs.amplify.aws/gen1/react/tools/cli/start/set-up-cli/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```console
+npm install -g @aws-amplify/cli 
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Deployment
 
-### `npm test`
+Run the following commands in the React front-end application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Install React application dependencies
 
-### `npm run build`
+```console
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Initialize the Amplify application
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```console
+amplify init
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- To initialize the project use the **suggested confgiration**.
+- Select your authentication method.
 
-### `npm run eject`
+### Add Authentication
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```console
+amplify add auth
+```
+Use the following configuration:
+ - Do you want to use the default authentication and security configuration? **Default configuration**
+ - How do you want users to be able to sign in? **Phone Number**
+ - Do you want to configure advanced settings? **No, I am done.**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```console
+amplify push
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Configure the Amazon Bedrock Agent
 
-## Learn More
+Rename the file **src/sample.env.js** to **src/env.js** and update the values with your **Agent** ID and **Agent Alias ID**.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Update the Auth Role from Amazon Cognito Identity Pool
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Add the following inline policy to the **authRole**:
 
-### Code Splitting
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "InvokeBedrockAgent",
+			"Effect": "Allow",
+			"Action": "bedrock:InvokeAgent",
+			"Resource": "*"
+		}
+	]
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Add Hosting and testing
 
-### Analyzing the Bundle Size
+```console
+amplify add hosting
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Use the following configuration:
+- Select the plugin module to execute · **Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)**
+- Choose a type **Manual deployment**
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```console
+amplify publish
+```
+Now you can test the application using the provided URL.

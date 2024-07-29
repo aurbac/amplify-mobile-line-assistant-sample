@@ -139,14 +139,8 @@ const Chat = ({ mobileLine }) => {
             setErrorMessage("")
             setQuery("");
             try {
-                const currentDate = new Date();
-                const year = currentDate.getFullYear();
-                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                const day = String(currentDate.getDate()).padStart(2, '0');
-                const formattedDate = `${year}-${month}-${day}`;
                 const obj_query = {
                     "mobile_line" : mobileLine.substr(mobileLine.length - 10),
-                    "current_date" : formattedDate,
                     "user_input" : my_query
                 }
                 const completion = await invokeBedrockAgent(JSON.stringify(obj_query), sessionId)
@@ -178,67 +172,65 @@ const Chat = ({ mobileLine }) => {
             }} onClose={() => { setErrorMessage("") }}>
             {errorMessage}</Alert>
         )}
-
-            <Box
-            id="chatHelper"
-            sx={{
-                borderRadius: "12px 12px 0px 0px",
-                display: "flex",
-                flexDirection: "column",
-                height: height,
-                overflow: "hidden",
-                overflowY: "scroll",
-                }}
-            >
-                <Typography color="primary" sx={{ fontSize: "1.1em", pb: 2, pt:2 }}><strong>Welcome! I'm your AI assistant</strong>, ready to help with your mobile plan, usage and account queries.</Typography>
-
+        
+        <Box
+        id="chatHelper"
+        sx={{
+            borderRadius: "12px 12px 0px 0px",
+            display: "flex",
+            flexDirection: "column",
+            height: height,
+            overflow: "hidden",
+            overflowY: "scroll",
+            }}
+        >
+            <Typography color="primary" sx={{ fontSize: "1.1em", pb: 2, pt:2 }}><strong>Welcome! I'm your AI assistant</strong>, ready to help with your mobile plan, usage and account queries.</Typography>
+            <Box sx={{ mb: 1 }} >
+                <ul>
                 {answers.map((answer, index) => (
-                    <Box key={"me"+index} sx={{ mb: 1 }} >
-                        <ul key={"base"+index}>
-                        { answer.hasOwnProperty("completion") ? (
-                            <li key={"meg"+index}>
-                            <Grid>
-                                <Box sx={{ 
-                                    borderRadius: 4, 
-                                    pl: 1, pr: 1, pt: 1, 
-                                    display: 'flex',
-                                    alignItems: 'left'
-                                }}>
-                                    <Box sx={{ pr: 2 }}>
-                                        <img src="/images/genai.png" width={32} height={32} />
-                                    </Box>
-                                    <Box sx={{ p:0 }}>
-                                        <Typography variant="body1">
-                                        {
-                                        answer.completion.split("\n").map(function(item, idx) {
-                                                return (
-                                                    <span key={idx}>
-                                                        {item}
-                                                        <br/>
-                                                    </span>
-                                                )
-                                            })
-                                        }
-                                        </Typography>
-                                    </Box>
+                    <li key={"meg"+index}>
+                    { answer.hasOwnProperty("completion") ? (
+                        
+                        <Grid>
+                            <Box sx={{ 
+                                borderRadius: 4, 
+                                pl: 1, pr: 1, pt: 1, 
+                                display: 'flex',
+                                alignItems: 'left'
+                            }}>
+                                <Box sx={{ pr: 2 }}>
+                                    <img src="/images/genai.png" width={32} height={32} />
                                 </Box>
-                            </Grid>
-                            </li>
-                        ) : (
-                            <li key={"meg"+index}>
-                            <Grid container justifyContent="flex-end" >  
-                                <Box sx={{ fontSize: 15, textAlign: "right", borderRadius: 4, background: "#B2DFDB", fontWeight: 500, pt:1, pb:1, pl:2, pr: 2, mb: 1, mt: 2, mr:1 }}>
-                                    { answer.query }
+                                <Box sx={{ p:0 }}>
+                                    <Typography variant="body1">
+                                    {
+                                    answer.completion.split("\n").map(function(item, idx) {
+                                            return (
+                                                <span key={idx}>
+                                                    {item}
+                                                    <br/>
+                                                </span>
+                                            )
+                                        })
+                                    }
+                                    </Typography>
                                 </Box>
-                            </Grid>
-                            </li>
-                        )}
-                        {/* this is the last item that scrolls into
-                            view when the effect is run */}
-                        <li ref={scrollRef} />
-                        </ul>
-                    </Box>
+                            </Box>
+                        </Grid>
+                    ) : (
+                        <Grid container justifyContent="flex-end" >  
+                            <Box sx={{ fontSize: 15, textAlign: "right", borderRadius: 4, background: "#B2DFDB", fontWeight: 500, pt:1, pb:1, pl:2, pr: 2, mb: 1, mt: 2, mr:1 }}>
+                                { answer.query }
+                            </Box>
+                        </Grid>
+                    )}
+                    </li>
                 ))}
+                {/* this is the last item that scrolls into
+                    view when the effect is run */}
+                <li ref={scrollRef} />
+                </ul>
+            </Box>
         </Box>
 
         <Paper
