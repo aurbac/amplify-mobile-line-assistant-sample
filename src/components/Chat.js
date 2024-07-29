@@ -105,6 +105,11 @@ const Chat = ({ mobileLine }) => {
             agentAliasId: AGENT_ALIAS_ID,
             sessionId,
             inputText: prompt,
+            sessionState: {
+                promptSessionAttributes: {
+                    mobileLine: mobileLine.substr(mobileLine.length - 10)
+                }
+            }
         });
         let completion = "";        
         const response = await bedrock.send(command);
@@ -139,11 +144,7 @@ const Chat = ({ mobileLine }) => {
             setErrorMessage("")
             setQuery("");
             try {
-                const obj_query = {
-                    "mobile_line" : mobileLine.substr(mobileLine.length - 10),
-                    "user_input" : my_query
-                }
-                const completion = await invokeBedrockAgent(JSON.stringify(obj_query), sessionId)
+                const completion = await invokeBedrockAgent(my_query, sessionId)
                 const json = {
                     completion: removeCharFromStartAndEnd(completion,'\n')
                 }
