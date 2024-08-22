@@ -18,10 +18,11 @@ import '@fontsource/roboto/700.css';
 import Chat from "./Chat";
 import { signOut } from 'aws-amplify/auth';
 import { getCurrentUser } from 'aws-amplify/auth';
+import { APP_NAME } from '../env';
 
 function LayoutApp() {
 
-  const [mobileLine,setMobileLine] = React.useState("");
+  const [loginId,setLoginId] = React.useState("");
   const effectRan = React.useRef(false);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ function LayoutApp() {
         console.log(`The username: ${username}`);
         console.log(`The userId: ${userId}`);
         console.log(signInDetails);
-        setMobileLine(signInDetails.loginId)
+        setLoginId(signInDetails.loginId)
       }
       fetchData()
           // catch any error
@@ -76,14 +77,14 @@ function LayoutApp() {
       >
         <Toolbar sx={{ flexWrap: 'wrap', p:1, m:0 }}>
           <Typography variant="h6" color="primary" noWrap sx={{ flexGrow: 1, p:0, m:0 }}>
-            Mobile Line Assistant
+            {APP_NAME}
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "inline"} }}>
               <Chip
                     sx={{ 
                       border: 0, fontSize: "0.95em"
                     }}
-                    label={mobileLine.toUpperCase()}
+                    label={loginId.toUpperCase()}
                     variant="outlined"
                     icon={<SentimentSatisfiedAltIcon />}
               />
@@ -95,7 +96,7 @@ function LayoutApp() {
       </AppBar>
 
       <Container disableGutters maxWidth="md" component="main" >
-        <Chat mobileLine={mobileLine} />
+        <Chat loginId={loginId} />
       </Container>
 
       <Box textAlign={"center"} >

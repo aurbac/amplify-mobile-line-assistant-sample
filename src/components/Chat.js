@@ -10,14 +10,15 @@ import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { AGENT_ID, AGENT_ALIAS_ID } from '../env';
+import { AGENT_ID, AGENT_ALIAS_ID, WELCOME_MESSAGE } from '../env';
 import { v4 as uuidv4 } from 'uuid';
 import { BedrockAgentRuntimeClient, InvokeAgentCommand } from "@aws-sdk/client-bedrock-agent-runtime";
 import {fromCognitoIdentityPool} from "@aws-sdk/credential-providers";
 import { fetchAuthSession } from 'aws-amplify/auth';
 import config from '../amplifyconfiguration.json';
+import parse from 'html-react-parser';
 
-const Chat = ({ mobileLine }) => {
+const Chat = ({ loginId }) => {
 
     const [enabled,setEnabled] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
@@ -107,7 +108,7 @@ const Chat = ({ mobileLine }) => {
             inputText: prompt,
             sessionState: {
                 promptSessionAttributes: {
-                    mobileLine: mobileLine.substr(mobileLine.length - 10)
+                    loginId: loginId.substr(0, 1)=="+" ? loginId.substr(loginId.length - 10) : loginId
                 }
             }
         });
@@ -185,7 +186,7 @@ const Chat = ({ mobileLine }) => {
             overflowY: "scroll",
             }}
         >
-            <Typography color="primary" sx={{ fontSize: "1.1em", pb: 2, pt:2 }}><strong>Welcome! I'm your AI assistant</strong>, ready to help with your mobile plan, usage and account queries.</Typography>
+            <Typography color="primary" sx={{ fontSize: "1.1em", pb: 2, pt:2 }}>{ parse(WELCOME_MESSAGE) }</Typography>
             <Box sx={{ mb: 1 }} >
                 <ul>
                 {answers.map((answer, index) => (

@@ -5,6 +5,7 @@ import LayoutApp from "./components/LayoutApp";
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import config from './amplifyconfiguration.json';
+import { APP_NAME } from './env';
 Amplify.configure(config);
 
 function App({ signOut, user }) {
@@ -16,7 +17,7 @@ function App({ signOut, user }) {
       return (
         <View textAlign="center" padding={tokens.space.large}>
           <Heading level={2} color="var(--amplify-colors-brand-primary-60)" fontWeight={tokens.fontWeights.semibold} fontSize={tokens.fontSizes.xl}>
-            Mobile Line Assistant
+            {APP_NAME}
           </Heading>
         </View>
       );

@@ -12,7 +12,7 @@ By the end of this tutorial, you'll have a fully functional web application that
 npm install -g @aws-amplify/cli 
 ```
 
-## Deployment
+## Amplify Deployment
 
 Run the following commands in the React front-end application.
 
@@ -38,7 +38,7 @@ amplify add auth
 ```
 Use the following configuration:
  - Do you want to use the default authentication and security configuration? **Default configuration**
- - How do you want users to be able to sign in? **Phone Number**
+ - How do you want users to be able to sign in? **Email**
  - Do you want to configure advanced settings? **No, I am done.**
 
 
